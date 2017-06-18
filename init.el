@@ -84,6 +84,7 @@
 		   dockerfile-mode
 		   yaml-mode
 		   go-dlv
+		   go-autocomplete
 		   kotlin-mode
 		   gradle-mode
 		   elpy)
@@ -98,6 +99,20 @@
   (setq-default exec-path-from-shell-check-startup-files nil)
   (setq-default exec-path-from-shell-variables '("PATH" "GOPATH" "GOROOT"))
   (exec-path-from-shell-initialize))
+
+;; Go Pagkage to get
+;; go get golang.org/x/tools/cmd/...
+;; go get github.com/rogpeppe/godef
+;; go get -u github.com/nsf/gocode
+;; go get golang.org/x/tools/cmd/goimports
+;; go get golang.org/x/tools/cmd/guru
+;; go get -u github.com/lukehoban/go-outline
+;; go get -u github.com/newhook/go-symbols
+;; go get -u github.com/golang/lint/golint
+;; go get github.com/tpng/gopkgs
+;; go get github.com/fatih/gomodifytags
+;; go get -v sourcegraph.com/sqs/goreturns
+
 
 (global-linum-mode t)
 (global-hl-todo-mode t)
