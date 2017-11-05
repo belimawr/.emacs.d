@@ -6,3 +6,5 @@ lisp/
 network-security.data
 tramp
 
+
+*.el~

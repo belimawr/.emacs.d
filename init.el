@@ -30,9 +30,11 @@
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
 ;; Turn off mouse interface early in startup to avoid momentary display
-(tool-bar-mode -1)
+;;(tool-bar-mode -1)
+(if (functionp 'tool-bar-mode) (tool-bar-mode -1))
 (menu-bar-mode -1)
-(scroll-bar-mode -1)
+(if (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
+;;(scroll-bar-mode -1)
 (show-paren-mode)
 
 ;; No splash screen
@@ -87,7 +89,12 @@
 		   go-autocomplete
 		   kotlin-mode
 		   gradle-mode
-		   elpy)
+		   elpy
+		   php-mode
+		   flymd
+		   linum-relative
+		   rjsx-mode
+		   prettier-js)
   "Packages to install.")
 
 
@@ -100,17 +107,23 @@
   (setq-default exec-path-from-shell-variables '("PATH" "GOPATH" "GOROOT"))
   (exec-path-from-shell-initialize))
 
+;; Linum relative
+(require 'linum-relative)
+(linum-relative-global-mode)
+(setq linum-relative-current-symbol "")
+(setq linum-relative-format "%3s ")
+
 ;; Go Pagkage to get
-;; go get golang.org/x/tools/cmd/...
-;; go get github.com/rogpeppe/godef
-;; go get -u github.com/nsf/gocode
-;; go get golang.org/x/tools/cmd/goimports
-;; go get golang.org/x/tools/cmd/guru
-;; go get -u github.com/lukehoban/go-outline
-;; go get -u github.com/newhook/go-symbols
-;; go get -u github.com/golang/lint/golint
-;; go get github.com/tpng/gopkgs
-;; go get github.com/fatih/gomodifytags
+;; go get -v golang.org/x/tools/cmd/...
+;; go get -v github.com/rogpeppe/godef
+;; go get -v -u github.com/nsf/gocode
+;; go get -v golang.org/x/tools/cmd/goimports
+;; go get -v golang.org/x/tools/cmd/guru
+;; go get -v -u github.com/lukehoban/go-outline
+;; go get -v -u github.com/newhook/go-symbols
+;; go get -v -u github.com/golang/lint/golint
+;; go get -v github.com/tpng/gopkgs
+;; go get -v github.com/fatih/gomodifytags
 ;; go get -v sourcegraph.com/sqs/goreturns
 
 
@@ -151,6 +164,7 @@
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'before-save-hook #'gofmt-before-save)
 
+
 ;; Auto complete
 (add-hook 'after-init-hook 'global-company-mode)
 
@@ -159,6 +173,19 @@
                           (company-mode)
 						  (go-guru-hl-identifier-mode)))
 
+;; React
+(add-hook 'rjsx-mode-hook 'prettier-js-mode)
+(add-hook 'rjsx-mode-hook
+          (lambda ()
+            (setq js2-basic-offset 2)
+            (setq tab-width 2)))
+
+(setq prettier-js-args '(
+  "--single-quote"  "true"
+  "--trailing-comma" "all"
+  "--jsx-bracket-same-line" "true"
+  "--bracket-spacing" "false"
+))
 
 ;; NEO Tree
 (global-set-key [f8] 'neotree-toggle)
@@ -181,6 +208,7 @@
 
 (setq-default line-spacing 2)
 (setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
 
 ;; Color Theme
 
@@ -205,14 +233,36 @@
 (provide 'init)
 ;;; init.el ends here
 
-(defun indent-buffer ()                                                                                                                                          "Indent an entire buffer using the default intenting scheme."                                                                                                 (interactive)                                                                                                                                                  (save-excursion                                                                                                                                                  (delete-trailing-whitespace)                                                                                                                                   (indent-region (point-min) (point-max) nil)                                                                                                                    (untabify (point-min) (point-max))))
+(defun indent-buffer ()
+  "Indent an entire buffer using the default intenting scheme."
+  (interactive)
+  (save-excursion
+    (delete-trailing-whitespace)
+    (indent-region (point-min) (point-max) nil)
+    (untabify (point-min) (point-max))))
 
 (global-set-key "\C-x\\" 'indent-buffer)
 
 (autoload 'apib-mode "apib-mode"
   "Major mode for editing API Blueprint files" t)
-(add-to-list 'auto-mode-alist '("\\.apib\\'" . apib-mode))
 
 (require 'gradle-mode)
-
 (gradle-mode 1)
+
+(autoload 'php-mode "php-mode" "Major mode for editing PHP code." t)
+
+;; filetype -> mode
+(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+(add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
+(add-to-list 'auto-mode-alist '("\\.apib\\'" . apib-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+
+(defun my-flymd-browser-function (url)
+  (let ((process-environment (browse-url-process-environment)))
+    (apply 'start-process
+           (concat "firefox " url)
+           nil
+           "/usr/bin/open"
+           (list "-a" "firefox" url))))
+(setq flymd-browser-open-function 'my-flymd-browser-function)
+(put 'upcase-region 'disabled nil)
