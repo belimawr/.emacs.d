@@ -182,7 +182,6 @@
 
 (setq prettier-js-args '(
   "--single-quote"  "true"
-  "--trailing-comma" "all"
   "--jsx-bracket-same-line" "true"
   "--bracket-spacing" "false"
 ))
