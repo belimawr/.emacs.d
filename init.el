@@ -58,43 +58,45 @@
 
 ;; Install packages
 (defvar my-packages '(
-		   web-mode
-		   thrift
-		   paredit
-		   neotree
-		   hl-todo
+           auto-complete
+		   arduino-mode
+		   atom-dark-theme
+		   atom-one-dark-theme
+		   color-theme-modern
 		   company
 		   company-go
-		   majapahit-theme
-		   gotham-theme
-		   monokai-theme
-		   railscasts-theme
-		   atom-dark-theme
-		   fiplr
-		   atom-one-dark-theme
-		   markdown-mode+
-		   jbeans-theme
 		   darcula-theme
-		   color-theme-modern
-		   go-mode
-		   go-guru
-		   go-rename
-		   flycheck
-		   rainbow-delimiters
-		   exec-path-from-shell
-		   arduino-mode
 		   dockerfile-mode
-		   yaml-mode
-		   go-dlv
-		   go-autocomplete
-		   kotlin-mode
-		   gradle-mode
 		   elpy
-		   php-mode
+		   exec-path-from-shell
+		   fiplr
+		   flycheck
 		   flymd
+		   go-autocomplete
+		   go-dlv
+		   go-guru
+		   go-mode
+		   go-rename
+		   gotham-theme
+		   gradle-mode
+		   hl-todo
+		   jbeans-theme
+		   kotlin-mode
 		   linum-relative
+		   majapahit-theme
+		   markdown-mode+
+		   monokai-theme
+		   neotree
+		   paredit
+		   php-mode
+		   prettier-js
+		   railscasts-theme
+		   rainbow-delimiters
 		   rjsx-mode
-		   prettier-js)
+		   thrift
+		   web-mode
+		   yaml-mode
+           )
   "Packages to install.")
 
 
@@ -265,3 +267,13 @@
            (list "-a" "firefox" url))))
 (setq flymd-browser-open-function 'my-flymd-browser-function)
 (put 'upcase-region 'disabled nil)
+
+(defun keybinds-go ()
+  "For use in go-mode."
+  (local-set-key (kbd "M-<left>") 'pop-tag-mark)
+  (local-set-key (kbd "M-<right>") 'go-guru-definition)
+  )
+
+;; add to hook
+(add-hook 'go-mode-hook 'keybinds-go)
+;;(global-set-key (kbd "M-<left>") 'pop-tag-mark)
