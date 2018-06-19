@@ -27,24 +27,19 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-(add-to-list 'load-path "~/.emacs.d/lisp")
-
 ;; Turn off mouse interface early in startup to avoid momentary display
-;;(tool-bar-mode -1)
-(if (functionp 'tool-bar-mode) (tool-bar-mode -1))
-(menu-bar-mode -1)
+(if (functionp 'tool-bar-mode)(tool-bar-mode -1))
 (if (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
-;;(scroll-bar-mode -1)
+(menu-bar-mode -1)
+
+;; Show  pairs of parentheses
+(setq show-paren-delay 0)
 (show-paren-mode)
 
 ;; No splash screen
 (setq inhibit-startup-screen t)
 
-;; No Bold
-;;(set-face-bold 'bold nil)
-
 ;; Common LISP
-
 (eval-when-compile (require 'cl))
 
 ;; Packages
@@ -58,47 +53,43 @@
 
 ;; Install packages
 (defvar my-packages '(
-           auto-complete
-		   arduino-mode
-		   atom-dark-theme
-		   atom-one-dark-theme
-		   color-theme-modern
-		   company
-		   company-go
-		   darcula-theme
-		   dockerfile-mode
-		   elpy
-		   exec-path-from-shell
-		   fiplr
-		   flycheck
-		   flymd
-		   go-autocomplete
-		   go-dlv
-		   go-guru
-		   go-mode
-		   go-rename
-		   gotham-theme
-		   gradle-mode
-		   hl-todo
-		   jbeans-theme
-		   kotlin-mode
-		   linum-relative
-		   majapahit-theme
-		   markdown-mode+
-		   monokai-theme
-		   neotree
-		   paredit
-		   php-mode
-		   prettier-js
-		   railscasts-theme
-		   rainbow-delimiters
-		   rjsx-mode
-		   thrift
-		   web-mode
-		   yaml-mode
-           )
-  "Packages to install.")
+                      ;; Modes
+                      arduino-mode
+                      dockerfile-mode
+                      go-mode
+                      gradle-mode
+                      kotlin-mode
+                      markdown-mode+
+                      php-mode
+                      rjsx-mode
+                      web-mode
+                      yaml-mode
 
+                      ;; Golang
+                      company-go
+                      go-autocomplete
+                      go-dlv
+                      go-guru
+                      go-rename
+                      
+                      ;; Others
+                      auto-complete
+                      company
+                      elpy
+                      exec-path-from-shell
+                      fiplr
+                      flycheck
+                      flymd
+                      helm-ag
+                      hl-todo
+                      linum-relative
+                      multiple-cursors
+                      neotree
+                      paredit
+                      prettier-js
+                      rainbow-delimiters
+                      thrift)
+                      "Packages to install.")
 
 (loop for pkg in my-packages
       unless (package-installed-p pkg) do (package-install pkg))
@@ -110,37 +101,23 @@
   (exec-path-from-shell-initialize))
 
 ;; Linum relative
-(require 'linum-relative)
+(require 'linum-relative )
 (linum-relative-global-mode)
 (setq linum-relative-current-symbol "")
 (setq linum-relative-format "%3s ")
-
-;; Go Pagkage to get
-;; go get -v golang.org/x/tools/cmd/...
-;; go get -v github.com/rogpeppe/godef
-;; go get -v -u github.com/nsf/gocode
-;; go get -v golang.org/x/tools/cmd/goimports
-;; go get -v golang.org/x/tools/cmd/guru
-;; go get -v -u github.com/lukehoban/go-outline
-;; go get -v -u github.com/newhook/go-symbols
-;; go get -v -u github.com/golang/lint/golint
-;; go get -v github.com/tpng/gopkgs
-;; go get -v github.com/fatih/gomodifytags
-;; go get -v sourcegraph.com/sqs/goreturns
-
-
 (global-linum-mode t)
 (global-hl-todo-mode t)
 (column-number-mode)
-
 (setq linum-format "%4d \u2502 ")
 
 ;; Ido
 (setq-default ido-use-filename-at-point 'guess)
 (setq-default ido-create-new-buffer 'always)
 (setq-default ido-enable-flex-matching t)
+(setq-default ido-use-url-at-point nil)
 (setq-default ido-everywhere t)
-(ido-mode t)
+(setq-default ido-auto-merge-delay-time 5)
+(ido-mode 1)
 
 ;; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -157,15 +134,11 @@
 											"*.psd" "*.db" "*.jpg" "*.jpeg" "*.png" "*.gif"
 											"*.ttf" "*.tga" "*.dds" "*.ico" "*.eot" "*.pdf"
 											"*.swf" "*.jar" "*.zip"))))
-
-(windmove-default-keybindings)
-(electric-pair-mode)
-
 ;; Hooks
 (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'before-save-hook #'gofmt-before-save)
-
 
 ;; Auto complete
 (add-hook 'after-init-hook 'global-company-mode)
@@ -175,7 +148,7 @@
                           (company-mode)
 						  (go-guru-hl-identifier-mode)))
 
-;; React
+;; React/JS
 (add-hook 'rjsx-mode-hook 'prettier-js-mode)
 (add-hook 'rjsx-mode-hook
           (lambda ()
@@ -183,56 +156,12 @@
             (setq tab-width 2)))
 
 (setq prettier-js-args '(
-  "--single-quote"  "true"
-  "--jsx-bracket-same-line" "true"
-  "--bracket-spacing" "false"
-))
+                         "--single-quote"  "true"
+                         "--jsx-bracket-same-line" "true"
+                         "--bracket-spacing" "false"
+                         ))
 
-;; NEO Tree
-(global-set-key [f8] 'neotree-toggle)
-
-;; Custom Keybindings
-(global-set-key (kbd "M-g") 'goto-line)
-(global-set-key (kbd "C-c p") 'fiplr-find-file)
-
-(global-set-key (kbd "C-M-<left>") 'shrink-window-horizontally)
-(global-set-key (kbd "C-M-<right>") 'enlarge-window-horizontally)
-(global-set-key (kbd "C-M-<down>") 'shrink-window)
-(global-set-key (kbd "C-M-<up>") 'enlarge-window)
-
-(global-set-key (kbd "M-TAB") #'company-complete)
-
-;; (global-set-key [s-left] 'windmove-left)
-;; (global-set-key [s-right] 'windmove-right)
-;; (global-set-key [s-up] 'windmove-up)
-;; (global-set-key [s-down] 'windmove-down)
-
-(setq-default line-spacing 2)
-(setq-default tab-width 4)
-(setq-default indent-tabs-mode nil)
-
-;; Color Theme
-
-;;(load-theme 'manoj-dark)
-(load-theme 'dark-laptop)
-
-;; Backups
-(setq backup-directory-alist `(("." . "~/.emacs-saves")))
-(setq backup-by-copying t)
-(setq delete-old-versions t
-  kept-new-versions 6
-  kept-old-versions 2
-  version-control t)
-
-;; Custom Editor
-(set-frame-font "Monospace-13")
-
-;;(require 'color-theme)
-;;(color-theme-initialize)
-;;(color-theme-tty-dark)
-
-(provide 'init)
-;;; init.el ends here
+(autoload 'php-mode "php-mode" "Major mode for editing PHP code." t)
 
 (defun indent-buffer ()
   "Indent an entire buffer using the default intenting scheme."
@@ -242,7 +171,6 @@
     (indent-region (point-min) (point-max) nil)
     (untabify (point-min) (point-max))))
 
-(global-set-key "\C-x\\" 'indent-buffer)
 
 (autoload 'apib-mode "apib-mode"
   "Major mode for editing API Blueprint files" t)
@@ -250,7 +178,11 @@
 (require 'gradle-mode)
 (gradle-mode 1)
 
-(autoload 'php-mode "php-mode" "Major mode for editing PHP code." t)
+;; Disable backup/autosave files - I use Git
+(setq backup-inhibited           t)
+(setq make-backup-files        nil)
+(setq auto-save-default        nil)
+(setq auto-save-list-file-name nil)
 
 ;; filetype -> mode
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
@@ -266,14 +198,62 @@
            "/usr/bin/open"
            (list "-a" "firefox" url))))
 (setq flymd-browser-open-function 'my-flymd-browser-function)
+
+;; Enable upcase and downcase region
+;; C-x C-u and C-x C-l
 (put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
 
 (defun keybinds-go ()
   "For use in go-mode."
   (local-set-key (kbd "M-<left>") 'pop-tag-mark)
-  (local-set-key (kbd "M-<right>") 'go-guru-definition)
-  )
+  (local-set-key (kbd "M-<right>") 'go-guru-definition))
 
 ;; add to hook
 (add-hook 'go-mode-hook 'keybinds-go)
-;;(global-set-key (kbd "M-<left>") 'pop-tag-mark)
+
+;; Better breaking line mode
+(global-visual-line-mode 1)
+
+;; Move between frames with Shift + arrow
+(windmove-default-keybindings)
+
+;; insert matching delimiters
+(electric-pair-mode)
+
+;; Custom Keybindings
+;; Multiple cursors
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+;; NEO Tree
+(global-set-key [f8] 'neotree-toggle)
+
+(global-set-key (kbd "M-g") 'goto-line)
+(global-set-key (kbd "C-c f") 'fiplr-find-file)
+
+(global-set-key (kbd "C-M-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "C-M-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "C-M-<down>") 'shrink-window)
+(global-set-key (kbd "C-M-<up>") 'enlarge-window)
+
+(global-set-key (kbd "M-TAB") #'company-complete)
+
+;; Indent buffer
+(global-set-key "\C-x\\" 'indent-buffer)
+
+(setq-default line-spacing 2)
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+
+;; Color Theme
+(load-theme 'dark-laptop)
+
+;; Custom Editor Font
+(set-frame-font "Monospace-13")
+
+(provide 'init)
+;;; init.el ends here
