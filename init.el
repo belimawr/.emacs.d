@@ -57,7 +57,6 @@
                       arduino-mode
                       dockerfile-mode
                       go-mode
-                      gradle-mode
                       kotlin-mode
                       markdown-mode+
                       php-mode
@@ -71,11 +70,16 @@
                       go-dlv
                       go-guru
                       go-rename
-                      
+
+                      ;; Python
+                      company-jedi
+                      elpy
+                      py-autopep8
+                      pyvenv
+
                       ;; Others
                       auto-complete
                       company
-                      elpy
                       exec-path-from-shell
                       fiplr
                       flycheck
@@ -148,6 +152,53 @@
                           (company-mode)
 						  (go-guru-hl-identifier-mode)))
 
+;; Python/Elpy
+(elpy-enable)
+(elpy-use-ipython)
+(require 'pyvenv)
+
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
+;; Python mode
+(add-to-list 'company-backends '(company-jedi company-files))
+
+(defun my-merge-imenu ()
+  (interactive)
+  (let ((mode-imenu (imenu-default-create-index-function))
+        (custom-imenu (imenu--generic-function imenu-generic-expression)))
+    (append mode-imenu custom-imenu)))
+
+(defun my-python-hooks()
+    (interactive)
+    (setq tab-width     4
+          python-indent 4
+          python-shell-interpreter "ipython"
+          python-shell-interpreter-args "-i")
+    (if (string-match-p "rita" (or (buffer-file-name) ""))
+        (setq indent-tabs-mode t)
+      (setq indent-tabs-mode nil)
+    )
+    (add-to-list
+        'imenu-generic-expression
+        '("Sections" "^#### \\[ \\(.*\\) \\]$" 1))
+    (setq imenu-create-index-function 'my-merge-imenu))
+
+(add-hook 'python-mode-hook 'my-python-hooks)
+
+(add-hook 'elpy-mode-hook
+          (lambda ()
+            (local-unset-key (kbd "M-."))
+            (local-unset-key (kbd "M-,"))
+            (local-unset-key (kbd "M-/"))
+            (define-key elpy-mode-map (kbd "M-.") 'jedi:goto-definition)
+            (define-key elpy-mode-map (kbd "M-,") 'jedi:goto-definition-pop-marker)
+            (define-key elpy-mode-map (kbd "M-/") 'jedi:show-doc)))
+
 ;; React/JS
 (add-hook 'rjsx-mode-hook 'prettier-js-mode)
 (add-hook 'rjsx-mode-hook
@@ -174,9 +225,6 @@
 
 (autoload 'apib-mode "apib-mode"
   "Major mode for editing API Blueprint files" t)
-
-(require 'gradle-mode)
-(gradle-mode 1)
 
 ;; Disable backup/autosave files - I use Git
 (setq backup-inhibited           t)
@@ -206,8 +254,8 @@
 
 (defun keybinds-go ()
   "For use in go-mode."
-  (local-set-key (kbd "M-<left>") 'pop-tag-mark)
-  (local-set-key (kbd "M-<right>") 'go-guru-definition))
+  (local-set-key (kbd "M-.") 'go-guru-definition)
+  (local-set-key (kbd "M-,") 'pop-tag-mark))
 
 ;; add to hook
 (add-hook 'go-mode-hook 'keybinds-go)

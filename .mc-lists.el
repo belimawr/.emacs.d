@@ -4,9 +4,11 @@
 (setq mc/cmds-to-run-for-all
       '(
         beginning-of-visual-line
+        completion-at-point
         end-of-visual-line
         indent-for-tab-command
         kill-region
+        paredit-open-round
         ))
 
 (setq mc/cmds-to-run-once
