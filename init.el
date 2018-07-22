@@ -27,6 +27,9 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+;; Manually downloaded stuff
+(add-to-list 'load-path "~/.emacs.d/downloaded/")
+
 ;; Turn off mouse interface early in startup to avoid momentary display
 (if (functionp 'tool-bar-mode)(tool-bar-mode -1))
 (if (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -259,6 +262,10 @@
 
 ;; add to hook
 (add-hook 'go-mode-hook 'keybinds-go)
+
+;; kOS - kerboscript
+(require 'ks)
+(setq ks-indent 4)
 
 ;; Better breaking line mode
 (global-visual-line-mode 1)

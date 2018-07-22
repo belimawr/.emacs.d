@@ -4,11 +4,14 @@
 (setq mc/cmds-to-run-for-all
       '(
         beginning-of-visual-line
+        company-complete
         completion-at-point
         end-of-visual-line
         indent-for-tab-command
         kill-region
+        kill-visual-line
         paredit-open-round
+        rjsx-delete-creates-full-tag
         ))
 
 (setq mc/cmds-to-run-once
