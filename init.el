@@ -95,7 +95,8 @@
                       paredit
                       prettier-js
                       rainbow-delimiters
-                      thrift)
+                      thrift
+                      color-theme-modern)
                       "Packages to install.")
 
 (loop for pkg in my-packages
@@ -157,7 +158,10 @@
 
 ;; Python/Elpy
 (elpy-enable)
-(elpy-use-ipython)
+
+(setq python-shell-interpreter "ipython"
+            python-shell-interpreter-args "-i --simple-prompt")
+
 (require 'pyvenv)
 
 (when (require 'flycheck nil t)
