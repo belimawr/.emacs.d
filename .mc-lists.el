@@ -10,6 +10,8 @@
         indent-for-tab-command
         kill-region
         kill-visual-line
+        paredit-backslash
+        paredit-forward-delete
         paredit-open-round
         rjsx-delete-creates-full-tag
         ))
