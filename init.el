@@ -61,7 +61,9 @@
                       dockerfile-mode
                       go-mode
                       kotlin-mode
+                      lua-mode
                       markdown-mode+
+                      markdown-toc
                       php-mode
                       rjsx-mode
                       web-mode
@@ -82,6 +84,8 @@
 
                       ;; Others
                       auto-complete
+                      base16-theme
+                      color-theme-modern
                       company
                       exec-path-from-shell
                       fiplr
@@ -90,13 +94,13 @@
                       helm-ag
                       hl-todo
                       linum-relative
+                      magit
                       multiple-cursors
                       neotree
                       paredit
                       prettier-js
                       rainbow-delimiters
-                      thrift
-                      color-theme-modern)
+                      thrift)
                       "Packages to install.")
 
 (loop for pkg in my-packages
@@ -309,7 +313,8 @@
 (setq-default indent-tabs-mode nil)
 
 ;; Color Theme
-(load-theme 'dark-laptop)
+;;(load-theme 'dark-laptop)
+(load-theme 'base16-grayscale-dark t)
 
 ;; Custom Editor Font
 (set-frame-font "Monospace-13")
