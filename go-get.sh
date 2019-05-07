@@ -10,4 +10,4 @@ go get -v -u github.com/newhook/go-symbols
 go get -v -u github.com/golang/lint/golint
 go get -v -u github.com/tpng/gopkgs
 go get -v -u github.com/fatih/gomodifytags
-go get -v -u sourcegraph.com/sqs/goreturns
+go get -v -u github.com/sqs/goreturns
