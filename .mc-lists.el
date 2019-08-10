@@ -6,7 +6,9 @@
         beginning-of-visual-line
         company-complete
         completion-at-point
+        dabbrev-expand
         end-of-visual-line
+        goto-line
         indent-for-tab-command
         kill-region
         kill-visual-line
@@ -19,4 +21,5 @@
 (setq mc/cmds-to-run-once
       '(
         go-guru-definition
+        markdown-outdent-or-delete
         ))

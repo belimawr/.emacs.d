@@ -58,10 +58,12 @@
 (defvar my-packages '(
                       ;; Modes
                       arduino-mode
+                      dart-mode
                       dockerfile-mode
                       go-mode
                       kotlin-mode
                       markdown-mode+
+                      markdown-toc
                       php-mode
                       rjsx-mode
                       web-mode
@@ -80,23 +82,29 @@
                       py-autopep8
                       pyvenv
 
+                      ;; Emacs packages
+                      use-package
+
                       ;; Others
                       auto-complete
+                      base16-theme
+                      color-theme-modern
                       company
                       exec-path-from-shell
                       fiplr
+                      flutter
                       flycheck
                       flymd
                       helm-ag
                       hl-todo
                       linum-relative
+                      magit
                       multiple-cursors
                       neotree
                       paredit
                       prettier-js
                       rainbow-delimiters
-                      thrift
-                      color-theme-modern)
+                      thrift)
                       "Packages to install.")
 
 (loop for pkg in my-packages
@@ -309,10 +317,28 @@
 (setq-default indent-tabs-mode nil)
 
 ;; Color Theme
-(load-theme 'dark-laptop)
+;;(load-theme 'dark-laptop)
+(load-theme 'base16-grayscale-dark t)
 
 ;; Custom Editor Font
 (set-frame-font "Monospace-13")
+
+;; Flutter/Dart
+(require 'use-package)
+(use-package use-package-ensure-system-package
+  :ensure t)
+(use-package dart-mode
+  :ensure-system-package (dart_language_server . "/Users/belimawr/Documents/devel/flutter/bin/cache/dart-sdk/bin/pub global activate dart_language_server")
+  :custom
+  (dart-format-on-save t)
+  (dart-sdk-path "/Users/belimawr/Documents/devel/flutter/bin/cache/dart-sdk/"))
+
+(use-package flutter
+  :after dart-mode
+  :bind (:map dart-mode-map
+              ("C-M-x" . #'flutter-run-or-hot-reload))
+  :custom
+  (flutter-sdk-path "/Users/belimawr/Documents/devel/flutter/"))
 
 (provide 'init)
 ;;; init.el ends here
