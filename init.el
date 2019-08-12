@@ -70,6 +70,7 @@
                       yaml-mode
 
                       ;; Golang
+                      ;; go-mode is listed with the other major modes
                       company-go
                       go-autocomplete
                       go-dlv

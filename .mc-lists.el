@@ -10,10 +10,12 @@
         indent-for-tab-command
         kill-region
         kill-visual-line
+        markdown-outdent-or-delete
         paredit-backslash
         paredit-forward-delete
         paredit-open-round
         rjsx-delete-creates-full-tag
+        sh-assignment
         ))
 
 (setq mc/cmds-to-run-once
