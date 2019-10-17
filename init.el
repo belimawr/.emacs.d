@@ -60,7 +60,6 @@
                       arduino-mode
                       dart-mode
                       dockerfile-mode
-                      go-mode
                       kotlin-mode
                       lua-mode
                       markdown-mode+
@@ -73,11 +72,8 @@
 
                       ;; Golang
                       ;; go-mode is listed with the other major modes
-                      company-go
-                      go-autocomplete
-                      go-dlv
-                      go-guru
-                      go-rename
+                      lsp-mode
+                      lsp-ui
 
                       ;; Python
                       company-jedi
@@ -161,11 +157,6 @@
 
 ;; Auto complete
 (add-hook 'after-init-hook 'global-company-mode)
-
-(add-hook 'go-mode-hook (lambda ()
-                          (set (make-local-variable 'company-backends) '(company-go))
-                          (company-mode)
-						  (go-guru-hl-identifier-mode)))
 
 ;; Python/Elpy
 (elpy-enable)
@@ -270,13 +261,28 @@
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-(defun keybinds-go ()
-  "For use in go-mode."
-  (local-set-key (kbd "M-.") 'go-guru-definition)
-  (local-set-key (kbd "M-,") 'pop-tag-mark))
+;; Golang stuff
+(use-package lsp-mode
+  :commands (lsp lsp-deferred))
 
-;; add to hook
-(add-hook 'go-mode-hook 'keybinds-go)
+(add-hook 'go-mode-hook #'lsp-deferred)
+;; provides fancier overlays
+(use-package lsp-ui
+  :commands lsp-ui-mode)
+
+
+;; (defun keybinds-go ()
+;;   "For use in go-mode."
+;;   (local-set-key (kbd "M-.") 'go-guru-definition)
+;;   (local-set-key (kbd "M-,") 'pop-tag-mark))
+
+;; (add-hook 'go-mode-hook (lambda ()
+;;                           (set (make-local-variable 'company-backends) '(company-go))
+;;                           (company-mode)
+;; 						  (go-guru-hl-identifier-mode)))
+
+;; ;; add to hook
+;; (add-hook 'go-mode-hook 'keybinds-go)
 
 ;; kOS - kerboscript
 (require 'ks)

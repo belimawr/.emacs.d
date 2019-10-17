@@ -9,7 +9,7 @@
  '(gofmt-command "goimports")
  '(package-selected-packages
    (quote
-    (use-package-ensure-system-package flutter-l10n-flycheck flutter dart-mode magit markdown-toc thrift rainbow-delimiters prettier-js paredit neotree multiple-cursors linum-relative hl-todo helm-ag flymd flycheck fiplr exec-path-from-shell py-autopep8 company-jedi go-rename go-guru go-autocomplete company-go php-mode markdown-mode+ go-mode arduino-mode rjsx-mode kotlin-mode go-dlv yaml-mode dockerfile-mode apib-mode elpy color-theme-modern web-mode)))
+    (lsp-mode use-package-ensure-system-package flutter-l10n-flycheck flutter dart-mode magit markdown-toc thrift rainbow-delimiters prettier-js paredit neotree multiple-cursors linum-relative hl-todo helm-ag flymd flycheck fiplr exec-path-from-shell py-autopep8 company-jedi go-rename go-guru go-autocomplete company-go php-mode markdown-mode+ go-mode arduino-mode rjsx-mode kotlin-mode go-dlv yaml-mode dockerfile-mode apib-mode elpy color-theme-modern web-mode)))
  '(safe-local-variable-values (quote ((encoding . utf-8)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
