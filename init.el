@@ -66,6 +66,7 @@
                       markdown-mode+
                       markdown-toc
                       php-mode
+                      protobuf-mode
                       rjsx-mode
                       web-mode
                       yaml-mode
