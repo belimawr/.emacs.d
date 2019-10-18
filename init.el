@@ -60,6 +60,7 @@
                       arduino-mode
                       dart-mode
                       dockerfile-mode
+                      go-mode
                       kotlin-mode
                       lua-mode
                       markdown-mode+
@@ -336,18 +337,18 @@
 (require 'use-package)
 (use-package use-package-ensure-system-package
   :ensure t)
-(use-package dart-mode
-  :ensure-system-package (dart_language_server . "/Users/belimawr/Documents/devel/flutter/bin/cache/dart-sdk/bin/pub global activate dart_language_server")
-  :custom
-  (dart-format-on-save t)
-  (dart-sdk-path "/Users/belimawr/Documents/devel/flutter/bin/cache/dart-sdk/"))
+;; (use-package dart-mode
+;;   :ensure-system-package (dart_language_server . "/Users/belimawr/Documents/devel/flutter/bin/cache/dart-sdk/bin/pub global activate dart_language_server")
+;;   :custom
+;;   (dart-format-on-save t)
+;;   (dart-sdk-path "/Users/belimawr/Documents/devel/flutter/bin/cache/dart-sdk/"))
 
-(use-package flutter
-  :after dart-mode
-  :bind (:map dart-mode-map
-              ("C-M-x" . #'flutter-run-or-hot-reload))
-  :custom
-  (flutter-sdk-path "/Users/belimawr/Documents/devel/flutter/"))
+;; (use-package flutter
+;;   :after dart-mode
+;;   :bind (:map dart-mode-map
+;;               ("C-M-x" . #'flutter-run-or-hot-reload))
+;;   :custom
+;;   (flutter-sdk-path "/Users/belimawr/Documents/devel/flutter/"))
 
 (provide 'init)
 ;;; init.el ends here
