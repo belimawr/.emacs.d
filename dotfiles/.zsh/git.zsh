@@ -1,6 +1,3 @@
-## Modified from: github.com/ohmyzsh/ohmyzsh
-## Original file: github.com/ohmyzsh/ohmyzsh/blob/master/lib/git.zsh
-
 export ZSH_THEME_GIT_PROMPT_DIRTY='*'
 
 # Outputs current branch info in prompt format
