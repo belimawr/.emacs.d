@@ -30,3 +30,6 @@ xorg-fonts-misc
 xorg-server
 xorg-xinit
 xterm
+arandr
+unzip
+htop

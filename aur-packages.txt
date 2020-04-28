@@ -1,0 +1,3 @@
+aur/gitkraken
+slack-desktop
+spotify
