@@ -36,3 +36,4 @@ xorg-server
 xorg-xinit
 xterm
 zsh
+zsh-completions
