@@ -19,6 +19,7 @@ cp -v ~/.tmux.conf ../dotfiles/
 cp -v ~/.xinitrc ../dotfiles/
 cp -v ~/.zshrc ../dotfiles/
 cp -Rv ~/.emacs.d/init.el ../dotfiles/.emacs.d
+cp -Rv ~/.emacs.d/custom.el ../dotfiles/.emacs.d
 
 # Copy folders
 cp -Rv ~/.config/gtk-3.0/ ../dotfiles/.config
