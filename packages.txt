@@ -12,6 +12,7 @@ i3-gaps
 i3blocks
 i3lock
 i3status
+inkscape
 keepassxc
 lxappearance
 network-manager-applet
@@ -22,6 +23,7 @@ pulseaudio
 pulseaudio-alsa
 pulseaudio-bluetooth
 qt5ct
+rsync
 tree
 unzip
 volumeicon

@@ -1,0 +1,7 @@
+firefox
+docker
+docker-compose
+virtualbox-host-modules-arch
+virtualbox
+vagrant
+
