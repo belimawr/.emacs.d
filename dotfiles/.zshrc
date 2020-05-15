@@ -22,6 +22,7 @@ alias ll='ls -lh --group-directories-first'
 alias emacs='emacs -nw'
 
 source ~/.zsh/git.zsh
+source ~/.zsh/kubectl.zsh
 
 export PS1='%n@%m %~ %# '
 export RPROMPT='$(git_prompt_info) %?'

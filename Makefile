@@ -22,3 +22,6 @@ configure-user:
 
 configure-system:
 	cd scripts && sudo ./configure-system.sh
+
+sync:
+	cd scripts && ./sync.sh

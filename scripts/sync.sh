@@ -8,8 +8,8 @@
 #mkdir -p ../dotfiles/.config/i3
 mkdir -p ../dotfiles/.config/gtk-3.0
 mkdir -p ../dotfiles/.config/qt5ct
-#mkdir -p ../dotfiles/.config/volumeicon
 mkdir -p ../dotfiles/.emacs.d
+mkdir -p ../dotfiles/.zsh
 
 # Copy files
 cp -v ~/.Xresources ../dotfiles/
@@ -20,6 +20,7 @@ cp -v ~/.xinitrc ../dotfiles/
 cp -v ~/.zshrc ../dotfiles/
 cp -Rv ~/.emacs.d/init.el ../dotfiles/.emacs.d
 cp -Rv ~/.emacs.d/custom.el ../dotfiles/.emacs.d
+
 
 # Copy folders
 cp -Rv ~/.config/gtk-3.0/ ../dotfiles/.config
