@@ -6,6 +6,7 @@ breeze-icons
 chromium
 dmenu
 emacs
+feh
 gnu-free-fonts
 htop
 i3-gaps

@@ -4,6 +4,7 @@ docker-compose
 docker-compose
 firefox
 kubectl
+minicom
 vagrant
 virtualbox
 virtualbox-host-modules-arch
