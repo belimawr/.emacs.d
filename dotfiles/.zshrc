@@ -15,14 +15,16 @@ compinit
 
 #alias docker-clean-images='docker images -f "dangling=true" -q | xargs docker rmi'
 #alias history='fc -l 1'
+alias ls='ls --color=auto --group-directories-first'
 alias grep='grep --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
 alias history='fc -l 1'
-alias la='ls -lAh --group-directories-first'
-alias ll='ls -lh --group-directories-first'
+alias la='ls -lAh'
+alias ll='ls -lh'
 alias emacs='emacs -nw'
 
 source ~/.zsh/git.zsh
 source ~/.zsh/kubectl.zsh
+source ~/.zsh/base16-grayscale-dark.sh
 
 export PS1='%n@%m %~ %# '
 export RPROMPT='$(git_prompt_info) %?'
