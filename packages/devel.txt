@@ -1,7 +1,9 @@
-firefox
+bind-tools
 docker
 docker-compose
-virtualbox-host-modules-arch
-virtualbox
+docker-compose
+firefox
+kubectl
 vagrant
-
+virtualbox
+virtualbox-host-modules-arch

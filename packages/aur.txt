@@ -1,3 +1,4 @@
 aur/gitkraken
+postman
 slack-desktop
 spotify
