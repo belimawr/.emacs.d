@@ -39,6 +39,7 @@ xorg-fonts
 xorg-fonts-misc
 xorg-server
 xorg-xinit
+xpdf
 xterm
 zsh
 zsh-completions
