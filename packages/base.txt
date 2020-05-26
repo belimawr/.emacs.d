@@ -1,12 +1,15 @@
 arandr
+avahi
 blueman
 bluez-utils
 breeze-gtk
 breeze-icons
 chromium
+detox
 dmenu
 emacs
 feh
+gimp
 gnu-free-fonts
 htop
 i3-gaps
@@ -17,6 +20,7 @@ inkscape
 keepassxc
 lxappearance
 network-manager-applet
+nss-mdns
 pavucontrol
 pcmanfm-qt
 picom

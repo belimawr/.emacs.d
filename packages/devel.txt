@@ -4,6 +4,7 @@ docker-compose
 docker-compose
 firefox
 kubectl
+lrzsz
 minicom
 vagrant
 virtualbox
