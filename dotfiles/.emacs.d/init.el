@@ -156,7 +156,14 @@
 
 ;; Color Theme
 ;;(load-theme 'dark-laptop)
-(load-theme 'base16-grayscale-dark t)
+;;(base16-theme-256-color-source 'terminal)
+;;(load-theme 'base16-grayscale-dark t)
+;;(load-theme 'base16-shell-colors t)
+
+(use-package base16-theme
+  :ensure t
+  :config
+  (load-theme 'base16-grayscale-dark t))
 
 ;; Custom Editor Font
 (set-frame-font "Monospace-13")
@@ -183,20 +190,21 @@
 ;; Indent buffer
 (global-set-key "\C-x\\" 'indent-buffer)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (company-lsp company lsp-ui lsp-mode multiple-cursors magit linum-relative base16-theme use-package yaml-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; (custom-set-variables
+;;  ;; custom-set-variables was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(package-selected-packages
+;;    (quote
+;;     (company-lsp company lsp-ui lsp-mode multiple-cursors magit linum-relative base16-theme use-package yaml-mode))))
+
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  )
 
 ;; Flymd
 (require 'flymd)
@@ -248,6 +256,9 @@
 (use-package company-lsp
   :ensure t
   :commands company-lsp)
+
+(when (not window-system)
+    (set-face-attribute 'region nil :background "#b9b9b9"))
 
 (provide 'init)
 ;;; init.el ends here

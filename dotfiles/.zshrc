@@ -12,6 +12,7 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+setopt interactivecomments
 
 #alias docker-clean-images='docker images -f "dangling=true" -q | xargs docker rmi'
 #alias history='fc -l 1'
