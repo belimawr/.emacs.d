@@ -9,6 +9,7 @@ detox
 dmenu
 emacs
 feh
+feh
 gimp
 gnu-free-fonts
 htop
