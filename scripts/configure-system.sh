@@ -9,3 +9,4 @@ echo "KEYMAP=/usr/local/share/kbd/keymaps/us-caps-2-ctrl.map" >> /etc/vconsole.c
 echo "LANG=en_GB.UTF-8" >> /etc/locale.conf
 cat ../system-files/etc/profile >>  /etc/profile
 cat ../system-files/etc/environment >> /etc/environment
+cp ../system-files/etc/xdg/picom.conf /etc/xdg/picom.conf
