@@ -7,7 +7,7 @@ install-all-packages:
 install-base-packages:
 	sudo pacman -Sy --needed $$(<packages/base.txt)
 
-install-extra-packages:
+install-devel-packages:
 	sudo pacman -Sy --needed $$(<packages/devel.txt)
 
 install-yay:
