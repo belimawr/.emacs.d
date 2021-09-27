@@ -137,17 +137,11 @@ set $ws10 "10"
 set $firstMonitor DP-2
 set $secondMonitor eDP-1
 
-# # Laptop's keyboard F12
-# bindsym XF86Favorites exec --no-startup-id "xrandr --output eDP1 --mode 1920x1080 --pos 0x540 --rotate normal --output DP1 --off --output DP2 --primary --mode 3840x2160 --pos 1920x0 --rotate normal --output HDMI1 --off --output HDMI2 --off --output VIRTUAL1 --off"
+# Laptop's keyboard F12
+bindsym XF86Favorites exec --no-startup-id "xrandr --output eDP-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --off --output DP-2 --off --output HDMI-3 --off --output DP-3 --primary --mode 3840x2160 --pos 0x0 --rotate normal --output DP-4 --off"
 
-# # External keyboard F12
-# bindsym XF86Explorer  exec --no-startup-id "xrandr --output eDP1 --mode 1920x1080 --pos 0x540 --rotate normal --output DP1 --off --output DP2 --primary --mode 3840x2160 --pos 1920x0 --rotate normal --output HDMI1 --off --output HDMI2 --off --output VIRTUAL1 --off"
-
-# # Only Laptop's screen
-# bindsym XF86Display exec --no-startup-id "xrandr --output HDMI1 --off --output HDMI2 --off --output DP1 --off --output DP2 --off --output eDP1 --primary --auto"
-
-# Dell's keyboard F9
-bindsym XF86Search exec --no-startup-id "xrandr --output eDP-1 --mode 1920x1080 --pos 870x2160 --rotate normal --output DP-1 --off --output DP-2 --primary --mode 3840x2160 --pos 0x0 --rotate normal && feh --bg-scale ~/Pictures/wallpaper.jpg"
+# Only Laptop's screen
+bindsym XF86Display exec --no-startup-id "xrandr --output eDP-1 --primary --mode 1920x1200 --pos 0x0 --rotate normal --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --off --output DP-2 --off --output HDMI-3 --off --output DP-3 --off --output DP-4 --off"
 
 # Attach workspaces to outputs
 workspace 1 output $firstMonitor
@@ -302,4 +296,4 @@ for_window [class="^Spotify$"] floating disable
 for_window [class="blueman-manager|Blueman-manager"] floating enable
 
 # Shortcuts
-bindsym Control+$alt+g exec chromium
+bindsym Control+$alt+g exec brave

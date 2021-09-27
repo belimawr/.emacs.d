@@ -43,14 +43,12 @@
 (setq inhibit-startup-screen t)
 
 ;; Common LISP
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 ;; Packages
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
 
 (package-initialize)
 
@@ -64,14 +62,15 @@
                       dockerfile-mode
                       go-mode
                       lsp-mode
-                      markdown-mode+
+                      markdown-mode
                       markdown-toc
                       yaml-mode
 
                       ;; Others
+                      all-the-icons
                       base16-theme
                       company
-                      company-lsp
+                      doom-modeline
                       exec-path-from-shell
                       fiplr
                       flymd
@@ -83,10 +82,11 @@
                       neotree
                       paredit
                       rainbow-delimiters
+                      swiper
                       )
                       "Packages to install.")
 
-(loop for pkg in my-packages
+(cl-loop for pkg in my-packages
       unless (package-installed-p pkg) do (package-install pkg))
 ;; env
 (when (memq window-system '(mac ns x))
@@ -102,15 +102,6 @@
 (global-linum-mode t)
 (column-number-mode)
 (setq linum-format "%4d \u2502 ")
-
-;; Ido
-(setq-default ido-use-filename-at-point 'guess)
-(setq-default ido-create-new-buffer 'always)
-(setq-default ido-enable-flex-matching t)
-(setq-default ido-use-url-at-point nil)
-(setq-default ido-everywhere t)
-(setq-default ido-auto-merge-delay-time 5)
-(ido-mode 1)
 
 ;; Fiplr
 (setq-default fiplr-root-markers '(".git"
@@ -128,7 +119,6 @@
 (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-;;(add-hook 'before-save-hook #'gofmt-before-save)
 
 (defun indent-buffer ()
   "Indent an entire buffer using the default intenting scheme."
@@ -155,18 +145,10 @@
 (setq-default indent-tabs-mode nil)
 
 ;; Color Theme
-;;(load-theme 'dark-laptop)
-;;(base16-theme-256-color-source 'terminal)
-;;(load-theme 'base16-grayscale-dark t)
-;;(load-theme 'base16-shell-colors t)
-
 (use-package base16-theme
   :ensure t
   :config
   (load-theme 'base16-grayscale-dark t))
-
-;; Custom Editor Font
-(set-frame-font "Monospace-13")
 
 ;; Custom Keybindings
 ;; Multiple cursors
@@ -189,22 +171,6 @@
 
 ;; Indent buffer
 (global-set-key "\C-x\\" 'indent-buffer)
-
-;; (custom-set-variables
-;;  ;; custom-set-variables was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(package-selected-packages
-;;    (quote
-;;     (company-lsp company lsp-ui lsp-mode multiple-cursors magit linum-relative base16-theme use-package yaml-mode))))
-
-;; (custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  )
 
 ;; Flymd
 (require 'flymd)
@@ -251,14 +217,50 @@
   (setq company-tooltip-align-annotations t)
   )
 
-;; company-lsp integrates company mode completion with lsp-mode.
-;; completion-at-point also works out of the box but doesn't support snippets.
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
-
 (when (not window-system)
-    (set-face-attribute 'region nil :background "#b9b9b9"))
+  (set-face-attribute 'region nil :background "#b9b9b9"))
+
+;; Set up the visible bell
+(setq visible-bell t)
+
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 120)
+;;(set-face-attribute 'default nil :font "Fira Code Retina" :height 180)
+
+;; Initialize use-package on non-Linux platforms
+(unless (package-installed-p 'use-package)
+   (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+;; Fuzzy search
+(use-package swiper)
+
+(use-package ivy
+  :diminish
+  :bind (("C-s" . swiper)
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-alt-done) ;; TAB enters directories
+	 ("RET" . ivy-alt-done) ;; ENTER enters directories
+	 ("<C-return>" . ivy-alt-done) ;; Ctrl-Enter enters directories
+         ("C-l" . ivy-alt-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-previous-line)
+         ("C-l" . ivy-done)
+         ("C-d" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-reverse-i-search-kill)))
+(ivy-mode 1)
+
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 15)))
+
+(setq lsp-keymap-prefix "C-c C-l")
 
 (provide 'init)
 ;;; init.el ends here
