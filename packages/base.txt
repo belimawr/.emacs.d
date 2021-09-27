@@ -22,6 +22,7 @@ i3status
 inkscape
 keepassxc
 lxappearance
+mpv
 network-manager-applet
 nss-mdns
 pavucontrol
@@ -32,11 +33,13 @@ pulseaudio-alsa
 pulseaudio-bluetooth
 qt5ct
 rsync
+stow
 tailscale
 tree
 unzip
 usbutils
 volumeicon
+x11-ssh-askpass
 xfce4-power-manager
 xfce4-screenshooter
 xorg
