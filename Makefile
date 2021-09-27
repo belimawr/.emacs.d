@@ -18,7 +18,7 @@ install-aur-packages:
 
 configure-user:
 	chsh -s /bin/zsh
-	cd scripts && ./configure-user.sh
+	cd bin && ./sync-dotfiles.sh
 
 configure-system:
 	cd scripts && sudo ./configure-system.sh
