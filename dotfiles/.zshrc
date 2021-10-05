@@ -27,6 +27,9 @@ alias grep='grep --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
 alias history='fc -l 1'
 alias emacs='emacs -nw'
 
+alias gr='go run .'
+alias gt='go test ./...'
+
 alias brkeyboard='setxkbmap -option ctrl:nocaps -layout us -variant altgr-intl'
 alias normalkeyboard='setxkbmap -option ctrl:nocaps -layout us'
 
