@@ -262,5 +262,23 @@
 
 (setq lsp-keymap-prefix "C-c C-l")
 
+;; Update all packages
+(use-package auto-package-update
+  :ensure t
+  :config
+  ;; Yes, please delete the old version on updates.
+  (setq auto-package-update-delete-old-versions t))
+
+;; The package provides a function auto-package-update-now which I simply call from my shell script.
+
+;; $ emacs --eval '(progn (sit-for 2) (auto-package-update-now))'
+;; Don't ask me why I use --eval including the sit-for. I guess there were reasons but I simply cannot remember...
+
+;; Well, you can also just use this simpler recipe.
+
+;; $ emacs -f auto-package-update-now
+;; That seems to work just as well. Try it out! If there's some case where that fails but the --eval '(progn (sit-for 2) (auto-package-update-now))' version works, please drop me a mail and remember me of the reasons I've had back then.
+
+
 (provide 'init)
 ;;; init.el ends here

@@ -33,6 +33,8 @@ alias gt='go test ./...'
 alias brkeyboard='setxkbmap -option ctrl:nocaps -layout us -variant altgr-intl'
 alias normalkeyboard='setxkbmap -option ctrl:nocaps -layout us'
 
+alias cpuFreqMonitor='watch -n.1 "cat /proc/cpuinfo | grep \"^[c]pu MHz\""'
+
 export EDITOR=emacs
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/linux-laptop/bin/:$PATH
