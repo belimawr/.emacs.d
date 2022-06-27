@@ -142,7 +142,8 @@ set $ws10 "10"
 
 ## xrandr --output eDP-1 --mode 1920x1080 --pos 0x540 --rotate normal --output DP-1 --off --output DP-2 --primary --mode 3840x2160 --pos 1920x0 --rotate normal
 set $firstMonitor DP-3
-Set $secondMonitor eDP-1
+Set $secondMonitor DP-1
+#Set $secondMonitor eDP-1
 
 # Laptop's keyboard F12
 bindsym XF86Favorites exec --no-startup-id "xrandr --output eDP-1 --off --output DP-1 --off --output DP-2 --off --output DP-3 --primary --mode 3840x2160 --pos 0x0 --rotate normal"
@@ -307,5 +308,26 @@ for_window [class="^Spotify$"] floating disable
 for_window [class="blueman-manager|Blueman-manager"] floating enable
 for_window [class="VirtualBox*"] floating enable
 
+for_window [class="zoom" title="^zoom$"] floating enable
+for_window [class="zoom" title="^Zoom - Licensed Account$"] floating enable
+for_window [class="zoom" title="^Zoom Cloud Meetings$"] floating enable
+for_window [class="zoom" title="^Settings$"] floating enable
+for_window [class="zoom" title="^Breakout Rooms*"] floating enable
+no_focus [class="zoom" title="^zoom$"]
+no_focus [class="zoom" title="^Zoom Cloud Meetings$"]
+
 # Shortcuts
 bindsym Control+$alt+g exec brave
+
+# Make the currently focused window a scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym Control+$alt+minus scratchpad show
+
+# Show the first scratchpad window
+bindsym $mod+minus [class="KeePassXC"] scratchpad show
+bindsym $mod+equal [class="Spotify"] scratchpad show
+
+# bindsym $mod+Shift+p mark "scratch1", move scratchpad
+# bindsym $mod+p [con_mark="scratch1"] scratchpad show
+# https://www.reddit.com/r/i3wm/comments/jlf92w/cycling_through_scratchpad_windows/
+# https://aaronlauterer.com/blog/2018/01/i3-scratchpad-to-access-often-used-applications/

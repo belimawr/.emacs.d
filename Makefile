@@ -16,6 +16,10 @@ install-yay:
 install-aur-packages:
 	yay -S --needed $$(<packages/aur.txt)
 
+install-fonts:
+	sudo pacman -Sy --needed $$(<packages/fonts.txt)
+	yay -S --needed $$(<packages/fonts-aur.txt)
+
 configure-user:
 	chsh -s /bin/zsh
 	cd bin && ./sync-dotfiles.sh
