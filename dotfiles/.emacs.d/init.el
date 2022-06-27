@@ -47,8 +47,11 @@
 
 ;; Packages
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
+;; (add-to-list 'package-archives
+;;              '("melpa" . "http://melpa.org/packages/") t)
 
 (package-initialize)
 
@@ -179,21 +182,20 @@
      (browse-url url)))
 (setq flymd-browser-open-function 'my-flymd-browser-function)
 
-;; (defun my-flymd-browser-function (url)
-;;   (let ((process-environment (browse-url-process-environment)))
-;;     (apply 'start-process
-;;            (concat "firefox " url)
-;;            nil
-;;            "/usr/bin/open"
-;;            (list "-a" "firefox" url))))
-;; (setq flymd-browser-open-function 'my-flymd-browser-function)
-
-;; Golang LSP
+;; Go LSP
 ;; Alternative: https://gist.github.com/psanford/80d3268a666b2b11666313d452c054ed
 (use-package lsp-mode
   :ensure t
   :commands (lsp lsp-deferred)
   :hook (go-mode . lsp-deferred))
+
+(setq lsp-modeline-code-actions-segments '(name icon))
+;;(global-set-key (kbd "M->") 'godef-jump-other-window)
+
+;; (use-package flymake-diagnostic-at-point
+;;   :after flymake
+;;   :config
+;;   (add-hook 'flymake-mode-hook #'flymake-diagnostic-at-point-mode))
 
 ;; Set up before-save hooks to format buffer and add/delete imports.
 ;; Make sure you don't have other gofmt/goimports hooks enabled.
@@ -223,8 +225,8 @@
 ;; Set up the visible bell
 (setq visible-bell t)
 
+;;(set-face-attribute 'default nil :font "Fira Code Retina" :height 250)
 (set-face-attribute 'default nil :font "Fira Code Retina" :height 110)
-;;(set-face-attribute 'default nil :font "Fira Code Retina" :height 180)
 
 ;; Initialize use-package on non-Linux platforms
 (unless (package-installed-p 'use-package)
@@ -280,5 +282,24 @@
 ;; That seems to work just as well. Try it out! If there's some case where that fails but the --eval '(progn (sit-for 2) (auto-package-update-now))' version works, please drop me a mail and remember me of the reasons I've had back then.
 
 
+
+;; run: all-the-icons-install-fonts
+
+(use-package org)
+
+
+;; (setq
+;;  lsp-go-env '((GOFLAGS . "-tags=linux,cgo,withjournald"))
+;;  )
+
+;; (setq
+;;  lsp-go-env '((GOFLAGS . "-tags=integration"))
+;;  )
+
+;; (setq
+;;  lsp-go-env '((GOFLAGS . "-tags=mage"))
+;;  )
+
 (provide 'init)
 ;;; init.el ends here
+
