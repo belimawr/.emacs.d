@@ -1,0 +1,6 @@
+gnu-free-fonts
+opendesktop-fonts
+ttf-fira-code
+ttf-hannom
+ttf-liberation
+ttf-opensans

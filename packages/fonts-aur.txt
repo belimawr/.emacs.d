@@ -1,0 +1,3 @@
+aur/interrofont
+aur/nerd-fonts-complete
+
