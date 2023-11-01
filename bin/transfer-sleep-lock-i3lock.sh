@@ -45,6 +45,7 @@ if [[ -e /dev/fd/${XSS_SLEEP_LOCK_FD:--1} ]]; then
 else
     trap 'kill %%' TERM INT
     i3lock -n $i3lock_options &
+    systemctl suspend &
     wait
 fi
 

@@ -86,16 +86,23 @@
                       paredit
                       rainbow-delimiters
                       swiper
+                      elpy ;; https://github.com/jorgenschaefer/elpy
                       )
                       "Packages to install.")
 
 (cl-loop for pkg in my-packages
       unless (package-installed-p pkg) do (package-install pkg))
 ;; env
-(when (memq window-system '(mac ns x))
-  (setq-default exec-path-from-shell-check-startup-files nil)
-  (setq-default exec-path-from-shell-variables '("PATH" "GOPATH" "GOROOT"))
-  (exec-path-from-shell-initialize))
+;; system crafters info: https://github.com/daviwil/emacs-from-scratch/blob/d24357b488862223fecaebdad758b136b0ca96e7/show-notes/Emacs-Tips-08.org
+;; (when (memq window-system '(mac ns x))
+;;   (setq-default exec-path-from-shell-check-startup-files nil)
+;;   (setq-default exec-path-from-shell-variables '("PATH" "GOPATH" "GOROOT"))
+;;   (exec-path-from-shell-initialize))
+
+(setq-default exec-path-from-shell-check-startup-files nil)
+(setq-default exec-path-from-shell-variables '("PATH" "GOPATH" "GOROOT"))
+(exec-path-from-shell-initialize)
+
 
 ;; Linum relative
 (require 'linum-relative )
@@ -118,10 +125,45 @@
 											"*.psd" "*.db" "*.jpg" "*.jpeg" "*.png" "*.gif"
 											"*.ttf" "*.tga" "*.dds" "*.ico" "*.eot" "*.pdf"
 											"*.swf" "*.jar" "*.zip"))))
+
+(defun flyspell-on-for-buffer-type ()
+  "Enable Flyspell appropriately for the major mode of the current buffer.  Uses `flyspell-prog-mode' for modes derived from `prog-mode', so only strings and comments get checked.  All other buffers get `flyspell-mode' to check all text.  If flyspell is already enabled, does nothing."
+  (interactive)
+  (if (not (symbol-value flyspell-mode)) ; if not already on
+(progn
+  (if (derived-mode-p 'prog-mode)
+    (progn
+      (message "Flyspell on (code)")
+      (flyspell-prog-mode))
+    ;; else
+    (progn
+      (message "Flyspell on (text)")
+      (flyspell-mode 1)))
+  ;; I tried putting (flyspell-buffer) here but it didn't seem to work
+  )))
+
+(defun flyspell-toggle ()
+  "Turn Flyspell on if it is off, or off if it is on.  When turning on, it uses `flyspell-on-for-buffer-type' so code-vs-text is handled appropriately."
+  (interactive)
+  (if (symbol-value flyspell-mode)
+  (progn ; flyspell is on, turn it off
+    (message "Flyspell off")
+    (flyspell-mode -1))
+  ; else - flyspell is off, turn it on
+  (flyspell-on-for-buffer-type)))
+
 ;; Hooks
 (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'org-mode-hook 'auto-fill-mode)
+(add-hook 'org-mode-hook 'flyspell-mode)
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'go-mode-hook 'flyspell-prog-mode)
+
+
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(add-hook 'find-file-hook 'flyspell-on-for-buffer-type)
 
 (defun indent-buffer ()
   "Indent an entire buffer using the default intenting scheme."
@@ -181,6 +223,7 @@
    (let ((browse-url-browser-function 'browse-url-firefox))
      (browse-url url)))
 (setq flymd-browser-open-function 'my-flymd-browser-function)
+(setq flymd-markdown-file-type '("\\.md\\'" "\\.markdown\\'" "\\.mdx\\'"))
 
 ;; Go LSP
 ;; Alternative: https://gist.github.com/psanford/80d3268a666b2b11666313d452c054ed
@@ -197,6 +240,11 @@
 ;;   :config
 ;;   (add-hook 'flymake-mode-hook #'flymake-diagnostic-at-point-mode))
 
+(use-package flymake-cursor
+  :load-path "~/.emacs.d/lisp/emacs-flymake-cursor" ;; cloned repo path
+  :config
+  (flymake-cursor-mode))
+
 ;; Set up before-save hooks to format buffer and add/delete imports.
 ;; Make sure you don't have other gofmt/goimports hooks enabled.
 (defun lsp-go-install-save-hooks ()
@@ -207,7 +255,10 @@
 ;; Optional - provides fancier overlays.
 (use-package lsp-ui
   :ensure t
-  :commands lsp-ui-mode)
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-doc-enable t) ;; show doc on mouse hover
+  (setq lsp-ui-doc-show-with-cursor t)) ;; how doc on cursor
 
 ;; Company mode is a standard completion package that works well with lsp-mode.
 (use-package company
@@ -219,14 +270,20 @@
   (setq company-tooltip-align-annotations t)
   )
 
-(when (not window-system)
-  (set-face-attribute 'region nil :background "#b9b9b9"))
+;; Fix current snippet issues
+;; Issue: company-call-backend-raw: Company: backend company-capf error "[yas] 'yas-expand-snippet' needs properly setup 'yas-minor-mode'" with args (post-completion )
+;; That leads to odd/not working snippet completion when auto-completing function calls
+;; GitHub fix: https://github.com/emacs-lsp/lsp-mode/issues/2913#issuecomment-853068853
+(yas-global-mode)
+
+;; (when (not window-system)
+;;   (set-face-attribute 'region nil :background "#b9b9b9"))
 
 ;; Set up the visible bell
 (setq visible-bell t)
 
 ;;(set-face-attribute 'default nil :font "Fira Code Retina" :height 250)
-(set-face-attribute 'default nil :font "Fira Code Retina" :height 110)
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 130)
 
 ;; Initialize use-package on non-Linux platforms
 (unless (package-installed-p 'use-package)
@@ -287,18 +344,73 @@
 
 (use-package org)
 
+(setq initial-scratch-message (purecopy "\
+;; This buffer is for text that is not saved, and for Lisp evaluation.
+;; To create a file, visit it with \\[find-file] and enter text in its buffer.
 
-;; (setq
-;;  lsp-go-env '((GOFLAGS . "-tags=linux,cgo,withjournald"))
-;;  )
+(setenv  \"SSH_AUTH_SOCK\" \"/run/user/1000/gnupg/S.gpg-agent.ssh\")
 
-;; (setq
-;;  lsp-go-env '((GOFLAGS . "-tags=integration"))
-;;  )
+(setq
+ lsp-go-env '((GOFLAGS . \"-tags=linux,cgo,withjournald\"))
+ )
 
-;; (setq
-;;  lsp-go-env '((GOFLAGS . "-tags=mage"))
-;;  )
+(setq
+ lsp-go-env '((GOFLAGS . \"-tags=linux,cgo,withjournald,windows,dawin\"))
+ )
+
+(setq
+ lsp-go-env '((GOFLAGS . \"-tags=integration\"))
+ )
+
+(setq
+ lsp-go-env '((GOFLAGS . \"-tags=mage\"))
+ )
+
+(set-face-attribute 'default nil :font \"Fira Code Retina\" :height 250)
+(set-face-attribute 'default nil :font \"Fira Code Retina\" :height 130)
+
+"))
+
+;; Set the SSH agent socket so magit can work with YubiKeys
+;; (setenv  "SSH_AUTH_SOCK" "/run/user/1000/gnupg/S.gpg-agent.ssh")
+
+(defun my-kill-this-buffer ()
+  (interactive)
+  (catch 'quit
+    (save-window-excursion
+      (let (done)
+        (when (and buffer-file-name (buffer-modified-p))
+          (while (not done)
+            (let ((response (read-char-choice
+                             (format "Save file %s? (y, n, d, q) " (buffer-file-name))
+                             '(?y ?n ?d ?q))))
+              (setq done (cond
+                          ((eq response ?q) (throw 'quit nil))
+                          ((eq response ?y) (save-buffer) t)
+                          ((eq response ?n) (set-buffer-modified-p nil) t)
+                          ((eq response ?d) (diff-buffer-with-file) nil))))))
+        (kill-buffer (current-buffer))))))
+
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+
+;; https://github.com/emacs-eaf/emacs-application-framework
+;; (require 'eaf)
+;; (require 'eaf-browser)
+
+(defun file-name-on-clipboard ()
+  "Put the current file name on the clipboard"
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filename
+      (with-temp-buffer
+        (insert filename)
+        (clipboard-kill-region (point-min) (point-max)))
+      (message filename))))
 
 (provide 'init)
 ;;; init.el ends here

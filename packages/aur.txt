@@ -3,3 +3,4 @@ canon-pixma-g6000-complete
 postman
 slack-desktop
 spotify
+mkinitcpio-firmware

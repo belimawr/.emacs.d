@@ -9,8 +9,9 @@
  '(custom-safe-themes
    '("12670281275ea7c1b42d0a548a584e23b9c4e1d2dabb747fd5e2d692bcd0d39b" "b4fd44f653c69fb95d3f34f071b223ae705bb691fb9abaf2ffca3351e92aa374" "c697b65591ba1fdda42fae093563867a95046466285459bd4e686dc95a819310" default))
  '(gofmt-command "goimports")
+ '(lsp-enable-file-watchers nil)
  '(package-selected-packages
-   '(auto-package-update markdown-toc markdown-mode+ go-mode dockerfile-mode arduino-mode company-lsp company lsp-ui lsp-mode multiple-cursors magit linum-relative base16-theme use-package yaml-mode))
+   '(outline-magic json-mode yafolding elpy lsp-ui-asd avy interaction-log flymake-diagnostic-at-point auto-package-update markdown-toc markdown-mode+ go-mode dockerfile-mode arduino-mode company-lsp company lsp-ui lsp-mode multiple-cursors magit linum-relative base16-theme use-package yaml-mode))
  '(safe-local-variable-values '((encoding . utf-8))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
