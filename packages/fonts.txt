@@ -1,8 +1,10 @@
 gnu-free-fonts
+noto-fonts-emoji
 opendesktop-fonts
+ttf-droid
 ttf-fira-code
 ttf-hannom
 ttf-liberation
+ttf-liberation
 ttf-opensans
-
- noto-fonts-emoji woff2 ttf-droid ttf-liberation
+woff2

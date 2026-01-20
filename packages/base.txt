@@ -1,3 +1,4 @@
+atool
 acpi
 arandr
 avahi
@@ -31,9 +32,7 @@ picom
 pulseaudio
 pulseaudio-alsa
 pulseaudio-bluetooth
-qt5ct
 rsync
-stow
 tailscale
 tree
 unzip
@@ -41,7 +40,6 @@ usbutils
 volumeicon
 x11-ssh-askpass
 xfce4-power-manager
-xfce4-screenshooter
 xorg
 xorg-fonts
 xorg-fonts-misc
