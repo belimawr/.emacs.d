@@ -124,6 +124,23 @@ grub-install --efi-directory=/efi
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
+## Systemd-boot
+```
+# Mount Windows EFI patition at /efi
+# Create a FAT32 GID:bc13c2ff-59e6-4262-a352-b275fd6f7172 for /boot
+bootctl --esp-path=/efi --boot-path=/boot install
+```
+
+### Boot config
+/boot/loader/entries/arch.conf
+```
+title   Arch Linux
+linux   /vmlinuz-linux
+initrd  /intel-ucode.img
+initrd  /initramfs-linux.img
+options root=UUID=<CRYPT-ID> rw cryptdevice=UUID=<NVME-ID>:cryptroot root=/dev/mapper/cryptroot loglevel=3 quiet ibt=off modeset=1
+```
+
 ## User Administration
 
 ```sh

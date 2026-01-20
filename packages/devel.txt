@@ -1,13 +1,11 @@
 bind-tools
 cpio
 docker
-docker-compose
+pyenv
 kubectl
 lrzsz
 lzip
 minicom
 the_silver_searcher
-uboot-tools
-vagrant
 virtualbox
 virtualbox-host-modules-arch
